@@ -1,0 +1,55 @@
+<div id="trainings">
+
+</div>
+<script type="text/babel">
+    const divStyle = {
+        borderRadius: 5,
+        padding: 5,
+        marginBottom: 10,
+        width: "100%"
+    };
+
+    class Training extends React.Component {
+        render() {
+            return <div style={divStyle}>
+                <h3> {this.props.trainingNameUKR} </h3>
+                <p>{this.props.descriptionUKR}</p>
+                <p>
+                    <details class="text-primary">
+                        <summary>Детальніше...</summary>
+                        {this.props.descriptionDetailedUKR}
+                    </details>
+                </p>
+            </div>;
+        }
+    }
+
+    class Content extends React.Component {
+
+        render() {
+            let test = [];
+            let trainingNameUKR;
+            let descriptionUKR;
+            let descriptionDetailedUKR;
+            for (let i = 0; i < this.props.trainings.length; i++) {
+                trainingNameUKR = this.props.trainings[i].trainingNameUKR;
+                descriptionUKR = this.props.trainings[i].descriptionUKR;
+                descriptionDetailedUKR = this.props.trainings[i].descriptionDetailedUKR;
+
+                test.push(<Training trainingNameUKR={trainingNameUKR} descriptionUKR={descriptionUKR} descriptionDetailedUKR={descriptionDetailedUKR}/>);
+            }
+            return test;
+        }
+    }
+
+    $(document).ready(function () {
+        fetch('/trainings_list').then(value => {
+            return value.json();
+        }).then(data => {
+            ReactDOM.render(
+                <Content trainings={data.trainings}/>,
+                document.getElementById("trainings")
+            );
+        });
+    });
+</script>

@@ -1,0 +1,55 @@
+<div id="trainings">
+
+</div>
+<script type="text/babel">
+    const divStyle = {
+        borderRadius: 5,
+        padding: 5,
+        marginBottom: 10,
+        width: "100%"
+    };
+
+    class Training extends React.Component {
+        render() {
+            return <div style={divStyle}>
+                <h3> {this.props.trainingNameEN} </h3>
+                <p>{this.props.descriptionEN}</p>
+                <p>
+                    <details class="text-primary">
+                        <summary>More...</summary>
+                        {this.props.descriptionDetailedEN}
+                    </details>
+                </p>
+            </div>;
+        }
+    }
+
+    class Content extends React.Component {
+
+        render() {
+            let test = [];
+            let trainingNameEN;
+            let descriptionEN;
+            let descriptionDetailedEN;
+            for (let i = 0; i < this.props.trainings.length; i++) {
+                trainingNameEN = this.props.trainings[i].trainingNameEN;
+                descriptionEN = this.props.trainings[i].descriptionEN;
+                descriptionDetailedEN = this.props.trainings[i].descriptionDetailedEN;
+
+                test.push(<Training trainingNameEN={trainingNameEN} descriptionEN={descriptionEN} descriptionDetailedEN={descriptionDetailedEN}/>);
+            }
+            return test;
+        }
+    }
+
+    $(document).ready(function () {
+        fetch('/trainings_list').then(value => {
+            return value.json();
+        }).then(data => {
+            ReactDOM.render(
+                <Content trainings={data.trainings}/>,
+                document.getElementById("trainings")
+            );
+        });
+    });
+</script>
